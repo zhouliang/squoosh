@@ -4,16 +4,16 @@ import { linkRef } from 'shared/prerendered-app/util';
 import '../../custom-els/loading-spinner';
 import logo from 'url:./imgs/logo.svg';
 import githubLogo from 'url:./imgs/github-logo.svg';
-import largePhoto from 'url:./imgs/demos/demo-large-photo.jpg';
-import artwork from 'url:./imgs/demos/demo-artwork.jpg';
-import deviceScreen from 'url:./imgs/demos/demo-device-screen.png';
-import largePhotoIcon from 'url:./imgs/demos/icon-demo-large-photo.jpg';
-import artworkIcon from 'url:./imgs/demos/icon-demo-artwork.jpg';
-import deviceScreenIcon from 'url:./imgs/demos/icon-demo-device-screen.jpg';
+//import largePhoto from 'url:./imgs/demos/demo-large-photo.jpg';
+//import artwork from 'url:./imgs/demos/demo-artwork.jpg';
+//import deviceScreen from 'url:./imgs/demos/demo-device-screen.png';
+//import largePhotoIcon from 'url:./imgs/demos/icon-demo-large-photo.jpg';
+//import artworkIcon from 'url:./imgs/demos/icon-demo-artwork.jpg';
+//import deviceScreenIcon from 'url:./imgs/demos/icon-demo-device-screen.jpg';
 import smallSectionAsset from 'url:./imgs/info-content/small.svg';
 import simpleSectionAsset from 'url:./imgs/info-content/simple.svg';
 import secureSectionAsset from 'url:./imgs/info-content/secure.svg';
-import logoIcon from 'url:./imgs/demos/icon-demo-logo.png';
+//import logoIcon from 'url:./imgs/demos/icon-demo-logo.png';
 import logoWithText from 'data-url-text:./imgs/logo-with-text.svg';
 import * as style from './style.css';
 import type SnackBarElement from 'shared/custom-els/snack-bar';
@@ -22,34 +22,34 @@ import { startBlobs } from './blob-anim/meta';
 import SlideOnScroll from './SlideOnScroll';
 
 const demos = [
-  {
-    description: 'Large photo',
-    size: '2.8mb',
-    filename: 'photo.jpg',
-    url: largePhoto,
-    iconUrl: largePhotoIcon,
-  },
-  {
-    description: 'Artwork',
-    size: '2.9mb',
-    filename: 'art.jpg',
-    url: artwork,
-    iconUrl: artworkIcon,
-  },
-  {
-    description: 'Device screen',
-    size: '1.6mb',
-    filename: 'pixel3.png',
-    url: deviceScreen,
-    iconUrl: deviceScreenIcon,
-  },
-  {
-    description: 'SVG icon',
-    size: '13k',
-    filename: 'squoosh.svg',
-    url: logo,
-    iconUrl: logoIcon,
-  },
+  // {
+  //   description: 'Large photo',
+  //   size: '2.8mb',
+  //   filename: 'photo.jpg',
+  //   url: largePhoto,
+  //   iconUrl: largePhotoIcon,
+  // },
+  // {
+  //   description: 'Artwork',
+  //   size: '2.9mb',
+  //   filename: 'art.jpg',
+  //   url: artwork,
+  //   iconUrl: artworkIcon,
+  // },
+  // {
+  //   description: 'Device screen',
+  //   size: '1.6mb',
+  //   filename: 'pixel3.png',
+  //   url: deviceScreen,
+  //   iconUrl: deviceScreenIcon,
+  // },
+  // {
+  //   description: 'SVG icon',
+  //   size: '13k',
+  //   filename: 'squoosh.svg',
+  //   url: logo,
+  //   iconUrl: logoIcon,
+  // },
 ] as const;
 
 const blobAnimImport =
@@ -129,18 +129,18 @@ export default class Intro extends Component<Props, State> {
     this.fileInput!.click();
   };
 
-  private onDemoClick = async (index: number, event: Event) => {
-    try {
-      this.setState({ fetchingDemoIndex: index });
-      const demo = demos[index];
-      const blob = await fetch(demo.url).then((r) => r.blob());
-      const file = new File([blob], demo.filename, { type: blob.type });
-      this.props.onFile!(file);
-    } catch (err) {
-      this.setState({ fetchingDemoIndex: undefined });
-      this.props.showSnack!("Couldn't fetch demo image");
-    }
-  };
+  // private onDemoClick = async (index: number, event: Event) => {
+  //   try {
+  //     this.setState({ fetchingDemoIndex: index });
+  //     const demo = demos[index];
+  //     const blob = await fetch(demo.url).then((r) => r.blob());
+  //     const file = new File([blob], demo.filename, { type: blob.type });
+  //     this.props.onFile!(file);
+  //   } catch (err) {
+  //     this.setState({ fetchingDemoIndex: undefined });
+  //     this.props.showSnack!("Couldn't fetch demo image");
+  //   }
+  // };
 
   private onBeforeInstallPromptEvent = (event: BeforeInstallPromptEvent) => {
     // Don't show the mini-infobar on mobile
@@ -285,13 +285,13 @@ export default class Intro extends Component<Props, State> {
                 </svg>
               </button>
               <div>
-                <span class={style.dropText}>Drop </span>OR{' '}
+                <span class={style.dropText}>拖入 </span>或{' '}
                 {supportsClipboardAPI ? (
                   <button class={style.pasteBtn} onClick={this.onPasteClick}>
                     Paste
                   </button>
                 ) : (
-                  'Paste'
+                  '粘贴图片'
                 )}
               </div>
             </div>
@@ -308,37 +308,7 @@ export default class Intro extends Component<Props, State> {
               class={style.mainWave}
             />
           </svg>
-          <div class={style.contentPadding}>
-            <p class={style.demoTitle}>
-              Or <strong>try one</strong> of these:
-            </p>
-            <ul class={style.demos}>
-              {demos.map((demo, i) => (
-                <li>
-                  <button
-                    class="unbutton"
-                    onClick={(event) => this.onDemoClick(i, event)}
-                  >
-                    <div>
-                      <div class={style.demoIconContainer}>
-                        <img
-                          class={style.demoIcon}
-                          src={demo.iconUrl}
-                          alt={demo.description}
-                        />
-                        {fetchingDemoIndex === i && (
-                          <div class={style.demoLoader}>
-                            <loading-spinner />
-                          </div>
-                        )}
-                      </div>
-                      <div class={style.demoSize}>{demo.size}</div>
-                    </div>
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </div>
+
         </div>
 
         <div class={style.bottomWave}>
@@ -355,10 +325,9 @@ export default class Intro extends Component<Props, State> {
             <SlideOnScroll>
               <div class={style.infoContent}>
                 <div class={style.infoTextWrapper}>
-                  <h2 class={style.infoTitle}>Small</h2>
+                  <h2 class={style.infoTitle}>更小</h2>
                   <p class={style.infoCaption}>
-                    Smaller images mean faster load times. Squoosh can reduce
-                    file size and maintain high quality.
+                  较小的图像意味着更快的加载时间。 我们帮您减少文件大小并保持高质量。
                   </p>
                 </div>
                 <div class={style.infoImgWrapper}>
@@ -380,11 +349,9 @@ export default class Intro extends Component<Props, State> {
             <SlideOnScroll>
               <div class={style.infoContent}>
                 <div class={style.infoTextWrapper}>
-                  <h2 class={style.infoTitle}>Simple</h2>
+                  <h2 class={style.infoTitle}>简单</h2>
                   <p class={style.infoCaption}>
-                    Open your image, inspect the differences, then save
-                    instantly. Feeling adventurous? Adjust the settings for even
-                    smaller files.
+                  打开您的图像，急速处理，即刻保存。感觉不满意？ 轻松调整设置以获得更好的效果。
                   </p>
                 </div>
                 <div class={style.infoImgWrapper}>
@@ -406,10 +373,9 @@ export default class Intro extends Component<Props, State> {
             <SlideOnScroll>
               <div class={style.infoContent}>
                 <div class={style.infoTextWrapper}>
-                  <h2 class={style.infoTitle}>Secure</h2>
+                  <h2 class={style.infoTitle}>安全</h2>
                   <p class={style.infoCaption}>
-                    Worried about privacy? Images never leave your device since
-                    Squoosh does all the work locally.
+                  担心隐私？ 您的图像永远不会被上传到服务器，因为所有工作都在本地完成。
                   </p>
                 </div>
                 <div class={style.infoImgWrapper}>
@@ -438,22 +404,9 @@ export default class Intro extends Component<Props, State> {
               <footer class={style.footerItems}>
                 <a
                   class={style.footerLink}
-                  href="https://github.com/GoogleChromeLabs/squoosh/blob/dev/README.md#privacy"
+                  href="https://sina.lt"
                 >
-                  Privacy
-                </a>
-                <a
-                  class={style.footerLink}
-                  href="https://github.com/GoogleChromeLabs/squoosh/tree/dev/cli"
-                >
-                  Squoosh CLI
-                </a>
-                <a
-                  class={style.footerLinkWithLogo}
-                  href="https://github.com/GoogleChromeLabs/squoosh"
-                >
-                  <img src={githubLogo} alt="" width="10" height="10" />
-                  Source on Github
+                  新浪短网址
                 </a>
               </footer>
             </div>
